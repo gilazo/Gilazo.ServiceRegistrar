@@ -7,7 +7,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="MongoDB.Driver" Version="2.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gilazo.ServiceRegistrar.Application\Gilazo.ServiceRegistrar.Application.csproj" />
+    <ProjectReference Include="..\Gilazo.ServiceRegistrar.Infrastructure\Gilazo.ServiceRegistrar.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
