@@ -8,18 +8,18 @@ using MongoDB.Driver;
 
 namespace Gilazo.ServiceRegistrar.Infrastructure
 {
-    public sealed class FindableMongoService : Application.IQueryable<Service>
+    public sealed class FindableMongoService : Application.IQueryable<MongoService, Service>
     {
-        private readonly IMongoCollection<Service> _collection;
+        private readonly IMongoCollection<MongoService> _collection;
 
-        public FindableMongoService(IMongoCollection<Service> collection)
+        public FindableMongoService(IMongoCollection<MongoService> collection)
         {
             _collection = collection;
         }
 
-        public async Task<List<Service>> Query(Expression<Func<Service, bool>> expression)
+        public async Task<List<Service>> Query(Expression<Func<MongoService, bool>> expression)
         {
-            return await (await _collection.FindAsync(expression)).ToListAsync();
+            return (await (await _collection.FindAsync(expression)).ToListAsync()).Select(m => m.ToService()).ToList();
         }
     }
 }

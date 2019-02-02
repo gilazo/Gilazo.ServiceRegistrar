@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Gilazo.ServiceRegistrar.Application
 {
-    public interface IQueryable<T>
+    public interface IQueryable<TIn, TOut>
     {
-        Task<List<T>> Query(Expression<Func<T, bool>> expression);
+        Task<List<TOut>> Query(Expression<Func<TIn, bool>> expression);
     }
 }

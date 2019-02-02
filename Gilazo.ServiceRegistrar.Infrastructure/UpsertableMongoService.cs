@@ -1,21 +1,30 @@
 using System.Threading.Tasks;
 using Gilazo.ServiceRegistrar.Application;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Gilazo.ServiceRegistrar.Infrastructure
 {
-    public sealed class UpsertableMongoService
+    public sealed class UpsertableMongoService : IRegisterable<Service>
     {
-        private readonly IMongoCollection<Service> _collection;
+        private readonly IMongoCollection<MongoService> _collection;
 
-        public UpsertableMongoService(IMongoCollection<Service> collection)
+        public UpsertableMongoService(IMongoCollection<MongoService> collection)
         {
             _collection = collection;
         }
 
-        public Task Upsert(Service service)
+        public Task Register(Service service)
         {
-            return _collection.ReplaceOneAsync(d => d.Id == service.Id, service, new UpdateOptions {  IsUpsert = true });
+            var mongoService = new MongoService
+            {
+                Id = service.Id,
+                Name = service.Name,
+                DocumentationUrl = service.DocumentationUrl,
+                StatusUrl = service.StatusUrl,
+                Status = service.Status
+            };
+            return _collection.ReplaceOneAsync(d => d.Id == mongoService.Id, mongoService, new UpdateOptions {  IsUpsert = true });
         }
     }
 }

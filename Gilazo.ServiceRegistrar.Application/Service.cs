@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+
 namespace Gilazo.ServiceRegistrar.Application
 {
     public sealed class Service

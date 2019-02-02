@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Gilazo.ServiceRegistrar.Application;
 using Gilazo.ServiceRegistrar.Infrastructure;
 using Gilazo.ServiceRegistrar.Presentation.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,10 @@ namespace Gilazo.ServiceRegistrar.Presentation.WebApi.Controllers
     [ApiController]
     public sealed class ServicesController : ControllerBase
     {
-        private readonly UpsertableMongoService _upsertableService;
-        private readonly FindableMongoService _findableService;
+        private readonly IRegisterable<Service> _upsertableService;
+        private readonly Application.IQueryable<MongoService, Service> _findableService;
 
-        public ServicesController(UpsertableMongoService upsertableService, FindableMongoService findableService)
+        public ServicesController(IRegisterable<Service> upsertableService, Application.IQueryable<MongoService, Service> findableService)
         {
             _upsertableService = upsertableService;
             _findableService = findableService;
@@ -28,7 +29,7 @@ namespace Gilazo.ServiceRegistrar.Presentation.WebApi.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Post([FromBody] ServiceRegistrationRequest request)
         {
-            await _upsertableService.Upsert(request.Service);
+            await _upsertableService.Register(request.Service);
             return Ok();
         }
     }
