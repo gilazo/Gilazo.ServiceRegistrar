@@ -58,7 +58,7 @@ namespace Gilazo.ServiceRegistrar.Presentation.WebApi
 
             services.AddScoped<HttpClient>(s => s.GetService<IHttpClientFactory>().CreateClient());
             
-            services.AddScoped<MongoClient>(_ => new MongoClient("mongodb://localhost:27017"));
+            services.AddScoped<MongoClient>(_ => new MongoClient("mongodb://mongo:27017"));
             services.AddScoped<IMongoDatabase>(s => s.GetService<MongoClient>().GetDatabase("Gilazo-ServiceRegistrar"));
             services.AddScoped<IMongoCollection<MongoService>>(
                 s => s.GetService<IMongoDatabase>().GetCollection<MongoService>("services"));
